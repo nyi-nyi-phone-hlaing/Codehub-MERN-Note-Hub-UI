@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { json, Link, redirect } from "react-router-dom";
 import NoteForm from "../components/NoteForm";
 import { ArrowLeft } from "lucide-react";
+import { toastSuccess } from "../utils/toast";
 
 const CreateNote = () => {
   return (
@@ -21,3 +22,24 @@ const CreateNote = () => {
 };
 
 export default CreateNote;
+
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const values = Object.fromEntries(formData);
+
+  const response = await fetch(`${import.meta.env.VITE_API}/create-note`, {
+    method: request.method,
+    body: JSON.stringify(values),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw json({ message: "Something Went Wrong" }, { status: 500 });
+  }
+
+  toastSuccess("Note created.");
+
+  return redirect("/");
+};

@@ -39,13 +39,12 @@ export const loader = async ({ params }) => {
   );
 
   if (response.status === 409) {
-    throw json({ message: "Note note found with this id" }, { status: 409 });
+    throw json({ message: "Note not found with this id" }, { status: 409 });
   }
 
   if (!response) {
     throw json({ message: "Internal Server Error" }, { status: 500 });
   }
-
   const data = await response.json();
   return data.note;
 };

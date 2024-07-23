@@ -1,11 +1,13 @@
 import { Formik, Field, Form } from "formik";
 import ValidationFailed from "./ValidationFailed";
 import * as Yup from "yup";
+import { useSubmit } from "react-router-dom";
 
-const NoteForm = ({ isCreate }) => {
+const NoteForm = ({ isCreate, oldData }) => {
+  const submit = useSubmit();
   const initialValues = {
-    title: "",
-    content: "",
+    title: oldData ? oldData.title : "",
+    content: oldData ? oldData.content : "",
   };
 
   const NoteSchema = Yup.object({
@@ -19,7 +21,11 @@ const NoteForm = ({ isCreate }) => {
   });
 
   const submitHandler = (values) => {
-    console.log(values);
+    if (isCreate) {
+      submit(values, { method: "POST" });
+    } else {
+      submit(values, { method: "PATCH" });
+    }
   };
 
   return (
@@ -28,7 +34,7 @@ const NoteForm = ({ isCreate }) => {
       validationSchema={NoteSchema}
       onSubmit={submitHandler}>
       {() => (
-        <Form className='w-full h-[calc(100%-3.5rem)] '>
+        <Form className='w-full h-[calc(100%-3.5rem)] p-3'>
           <div className='w-full h-14 flex items-center justify-between'>
             <p className='text-zinc-500 font-normal'>Characters - 0</p>
             <button
