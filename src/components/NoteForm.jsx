@@ -13,7 +13,7 @@ const NoteForm = ({ isCreate, oldData }) => {
   const NoteSchema = Yup.object({
     title: Yup.string()
       .min(10, "Title is too short.")
-      .max(50, "Title is too long.")
+      .max(100, "Title is too long.")
       .required("Title is required."),
     content: Yup.string()
       .min(5, "Content is too short.")
@@ -32,6 +32,7 @@ const NoteForm = ({ isCreate, oldData }) => {
     <Formik
       initialValues={initialValues}
       validationSchema={NoteSchema}
+      enableReinitialize={true}
       onSubmit={submitHandler}>
       {() => (
         <Form className='w-full h-[calc(100%-3.5rem)] p-3'>

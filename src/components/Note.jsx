@@ -4,7 +4,7 @@ import TimeAgo from "./TimeAgo";
 import { toastSuccess } from "../utils/toast";
 
 const Note = ({ note }) => {
-  const { _id, content, createdAt } = note;
+  const { _id, title, createdAt } = note;
   const navigate = useNavigate();
   const deleteNoteHandler = async () => {
     const response = await fetch(
@@ -22,10 +22,8 @@ const Note = ({ note }) => {
   return (
     <div className='bg-zinc-900 aspect-square rounded-md overflow-hidden duration-200 border-2 border-zinc-900 hover:border-amber-500'>
       <Link to={`/view-note/${_id}`}>
-        <div className='p-2 h-[calc(100%-2.5rem)] overflow-hidden'>
-          <p>
-            {content.length > 80 ? content.substring(0, 80) + "..." : content}
-          </p>
+        <div className='p-2 font-semibold h-[calc(100%-2.5rem)] overflow-hidden'>
+          <p>{title.length > 70 ? title.substring(0, 70) + "..." : title}</p>
         </div>
       </Link>
       <ul className='h-10 flex px-2 items-center justify-between border-t border-zinc-700 select-none'>
